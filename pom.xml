@@ -47,7 +47,9 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.csv</include>
+                </includes>
             </resource>
             <resource>
                 <directory>src/main/resources/data</directory>
@@ -82,7 +84,7 @@
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                             <useUniqueVersions>false</useUniqueVersions>
-                            <mainClass>com.company.ErnAnalyzer</mainClass>
+                            <mainClass>org.monarchinitiative.hpo2git.Hpo2GitIssue</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

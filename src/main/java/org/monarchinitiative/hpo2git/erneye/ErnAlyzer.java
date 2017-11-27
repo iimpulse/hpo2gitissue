@@ -31,6 +31,7 @@ public class ErnAlyzer {
             System.out.println(ern.toString());
             try {
                 postIt(ern);
+                break;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -40,17 +41,17 @@ public class ErnAlyzer {
 
 
 
-    public ErnAlyzer(String path, String pword) {
-        this.password = pword;
+    public ErnAlyzer() {
+        this.password = "";
+        ClassLoader classLoader = ErnAlyzer.class.getClassLoader();
+        String path = classLoader.getResource("ERN-EYE_HPOWorkingDocumentWG1Dd20171011.csv").getFile();
         Set<String> actions=new HashSet<>();
         Term previousTerm=null;
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line=null;
             while ((line=br.readLine())!=null) {
-
                 if (line.contains("HP:0000478")) {
-                    //System.out.println(line);
                     break; // this is the first content line
                 }
             }
