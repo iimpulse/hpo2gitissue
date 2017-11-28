@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -94,8 +91,10 @@ public class ErnAlyzer {
 
 
     public void postIt(ErnEntry ern) throws Exception {
-        URL url = new URL("https://github.com/obophenotype/pnrobinson/human-phenotype-ontology/issues/");
+        URL url = new URL("https://api.github.com/repos/iimpulse/minePM/issues");
         URLConnection con = url.openConnection();
+        String userpass = "iimpulse:" + this.password;
+        String basicAuth = "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary(userpass.getBytes());
         HttpURLConnection http = (HttpURLConnection)con;
         http.setRequestMethod("POST"); // PUT is another valid option
         http.setDoOutput(true);
@@ -103,8 +102,8 @@ public class ErnAlyzer {
         Map<String,String> arguments = new HashMap<>();
 
         String myTitle=String.format("ERN-EYE NTR: %s",ern.term.name);
-        arguments.put("username", "pnrobinson");
-       // arguments.put("password", this.password); // pass from command line
+        //arguments.put("username", "iimpulse");
+        //arguments.put("password", this.password); // pass from command line
         arguments.put("title",myTitle);
         arguments.put("body",ern.toString());
         arguments.put("labels", "ophthalmology");
@@ -116,14 +115,15 @@ public class ErnAlyzer {
         byte[] out = sj.toString().getBytes(StandardCharsets.UTF_8);
         String test="{"+
                 "\"title\": \"Found a bug\", "+
-                "\"body\": \"I'm having a problem with this.\","+
+                "\"body\": \"I'm having a problem with this.\""+
                 "}";
-       // out = test.toString().getBytes(StandardCharsets.UTF_8);
+        //byte[] out = test.toString().getBytes(StandardCharsets.UTF_8);
         int length = out.length;
 
 
         http.setFixedLengthStreamingMode(length);
         http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        http.setRequestProperty("Authorization",basicAuth);
         System.out.println(http.toString());
         http.connect();
         String str = new String(out);
@@ -132,7 +132,7 @@ public class ErnAlyzer {
             os.write(out);
             os.close();
         }
-       System.out.println("Response:"+http.getResponseCode());
+       System.out.println("Response:"+http.getResponseMessage());
     }
 
 
