@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -102,8 +105,6 @@ public class ErnAlyzer {
         Map<String,String> arguments = new HashMap<>();
 
         String myTitle=String.format("ERN-EYE NTR: %s",ern.term.name);
-        //arguments.put("username", "iimpulse");
-        //arguments.put("password", this.password); // pass from command line
         arguments.put("title",myTitle);
         arguments.put("body",ern.toString());
         arguments.put("labels", "ophthalmology");
@@ -132,7 +133,7 @@ public class ErnAlyzer {
             os.write(out);
             os.close();
         }
-       System.out.println("Response:"+http.getResponseMessage());
+       System.out.println("Response: "+http.getResponseMessage());
     }
 
 
